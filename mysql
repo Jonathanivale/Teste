@@ -1,0 +1,85 @@
+CREATE DATABASE toyshop;
+USE toyshop;
+
+CREATE TABLE estados(estadoId TINYINT UNSIGNED, estadoNome VARCHAR(20) NOT NULL, estadoUF CHAR(2));
+
+ALTER TABLE estados ADD PRIMARY KEY(estadoId);
+
+ALTER TABLE estados MODIFY COLUMN
+estadoId TINYINT UNSIGNED
+AUTO_INCREMENT;
+
+ALTER TABLE estados MODIFY COLUMN
+estadoUF CHAR(2) NOT NULL;
+
+CREATE TABLE cidades(cidadeId SMALLINT UNSIGNED AUTO_INCREMENT, cidadeNome
+VARCHAR(50) NOT NULL, PRIMARY KEY (cidadeId));
+
+ALTER TABLE cidades ADD estadoId TINYINT UNSIGNED;
+
+ALTER TABLE cidades MODIFY COLUMN estadoId TINYINT UNSIGNED NOT NULL;
+
+ALTER TABLE cidades ADD FOREIGN KEY
+(estadoId) REFERENCES estados(estadoId);
+
+CREATE TABLE clientes(clienteId SMALLINT UNSIGNED
+AUTO_INCREMENT, clienteNome VARCHAR(50) NOT NULL,
+clienteNasc DATE NOT NULL, clienteCPF CHAR(11) NOT NULL,
+cidadeId SMALLINT UNSIGNED NOT NULL, PRIMARY KEY (clienteId), FOREIGN KEY (cidadeId) REFERENCES cidades(cidadeId));
+
+ALTER TABLE clientes CHANGE COLUMN clienteNasc
+clienteDtNasc DATE NOT NULL;
+
+ALTER TABLE clientes DROP COLUMN clienteDtNasc;
+
+ALTER TABLE clientes ADD clienteNasc DATE NOT NULL;
+
+ALTER TABLE clientes MODIFY clienteNasc DATE NOT NULL
+AFTER clienteNome;
+
+CREATE INDEX idx_cpf ON clientes (clienteCPF);
+
+SHOW INDEX FROM clientes FROM toyshop;
+
+ALTER TABLE clientes DROP INDEX idx_cpf;
+
+ALTER TABLE clientes MODIFY clienteCPF CHAR(11) NOT NULL UNIQUE;
+
+INSERT INTO estados (estadoNome, estadoUF) VALUES ('São Paulo', 'SP');
+INSERT INTO estados (estadoNome, estadoUF) VALUES ('Paraná', 'PR');
+INSERT INTO estados (estadoNome, estadoUF) VALUES ('Minas Gerais', 'MG');
+INSERT INTO estados (estadoNome, estadoUF) VALUES ('Rio de Janeiro', 'RJ');
+
+INSERT INTO cidades (cidadeNome, estadoId) VALUES
+('Barra Bonita',1);
+INSERT INTO cidades (cidadeNome, estadoId) VALUES
+('Botucatu',1);
+INSERT INTO cidades (cidadeNome, estadoId) VALUES
+('São Paulo',1);
+INSERT INTO cidades (cidadeNome, estadoId) VALUES
+('Curitiba',2);
+
+ALTER TABLE cidades ALTER COLUMN estadoId SET DEFAULT 1;
+
+INSERT INTO cidades (cidadeNome, estadoId) Values
+('Bauru', DEFAULT);
+
+INSERT clientes (clienteNome, clienteNasc, clienteCPF, cidadeId) VALUES ('Walter Ronaldo', '2000-09-20', '4342424322', 1);
+INSERT clientes (clienteNome, clienteNasc, clienteCPF, cidadeId) VALUES ('Pedro Silva', '2002-08-25', '6546457745', 1);
+INSERT clientes (clienteNome, clienteNasc, clienteCPF, cidadeId) VALUES ('Roberto Carlos', '2021-07-25', '32145689102', 2);
+INSERT clientes (clienteNome, clienteNasc, clienteCPF, cidadeId) VALUES ('Pedro Guilherme', '1887-06-24', '84595678910', 1);
+
+DELETE FROM cidades WHERE cidadeId = 6;
+
+INSERT INTO cidades (cidadeNome, estadoId) VALUES ('Maringá', 2);
+
+UPDATE cidades SET cidadeId=6 WHERE cidadeId=7;
+
+INSERT INTO cidades (cidadeNome, estadoId) VALUES ('Marilia', 1);
+
+UPDATE cidades SET cidadeId=7 WHERE cidadeId=8;
+
+ALTER TABLE cidades AUTO_INCREMENT = 8;
+
+INSERT INTO cidades (cidadeNome, estadoId) VALUES ('Jaú',1);
+INSERT INTO cidades (cidadeNome, estadoId) VALUES ('Bariri',1);
