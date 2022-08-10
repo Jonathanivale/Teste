@@ -1,0 +1,39 @@
+dados = read.csv("dados.csv")
+meses = c(1:12)
+Temp_med = dados[,1]
+Dias_chuvosos= dados[,2]
+Chuva=dados[,3]
+Umidade_relativa=dados[,4]
+par(mfrow=c(2,2))
+
+plot(meses,Temp_med,xlab ="meses",ylab="Temperatura média",main="Meses x Temp.Média",pch=2)
+text(2,23.1,"23.1ºC",pos=4)
+text(4,21,"21ºC",pos=4)
+abline(h=mean(Temp_med),col=7,lty="dotted")
+abline(h=min(Temp_med),col=3,lty="dotdash")
+abline(h=max(Temp_med),col=4)
+lines(c(2:7),c(23.1,22.4,21,18.1,17.1,17))
+
+plot(meses,Dias_chuvosos,xlab ="Meses",ylab="Dias de chuva",main="Meses x Dias chuvosos",pch=3)
+text(1,18,"18D",pos=1)
+text(8,3,"3D",pos=3)
+abline(h=mean(Dias_chuvosos),col=5,lty="dotted")
+abline(h=min(Dias_chuvosos),col=2,lty="dotdash")
+abline(h=max(Dias_chuvosos),col=11)
+lines(c(1:8),c(18,15,14,7,5,4,4,3))
+
+plot(meses,Chuva,xlab ="Meses",ylab="Chuva",main="Meses x Chuva em mm",pch=19)
+text(1,320,"320mm",pos=4)
+text(4,81,"81mm",pos=2)
+abline(h=mean(Chuva),col=8,lty="dotted")
+abline(h=min(Chuva),col=10,lty="dotdash")
+abline(h=max(Chuva),col=12)
+lines(c(2:8),c(233,183,81,72,53,50,46))
+
+plot(meses,Umidade_relativa,xlab ="Meses",ylab="Umidade Relativa",main="Meses x Umidade Relativa",pch=17)
+text(3,79,"79%",pos=4)
+text(5,73,"73%",pos=2)
+abline(h=mean(Umidade_relativa),col=7,lty="dotted")
+abline(h=min(Umidade_relativa),col=3,lty="dotdash")
+abline(h=max(Umidade_relativa),col=4)
+lines(c(2,3,4,5,6,7,8),c(79,79,75,73,73,69,62))
